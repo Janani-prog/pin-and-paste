@@ -118,7 +118,7 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
   }
 }
 
@@ -159,4 +159,10 @@ All colors MUST be HSL.
   .hover-scale:hover { transform: scale(1.04); }
 
   .pulse { animation: pulse 2s cubic-bezier(0.4,0,0.6,1) infinite; }
+
+  /* Panels & Header */
+  .panel-glass { background: hsl(var(--background)/0.7); backdrop-filter: blur(8px) saturate(130%); border: 1px solid hsl(var(--border)); }
+  .header-gradient { background-image: linear-gradient(180deg, hsl(var(--accent)/0.35), transparent); }
+  .text-gradient-primary { background: var(--gradient-primary); -webkit-background-clip: text; background-clip: text; color: transparent; }
 }
+

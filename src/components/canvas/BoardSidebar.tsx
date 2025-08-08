@@ -14,7 +14,7 @@ export const BoardSidebar: React.FC<{ onAddNote: () => void; onAddImage: (f: Fil
   const fileId = useMemo(() => `file-input-${Math.random().toString(36).slice(2)}`,[ ]);
 
   return (
-    <aside className="h-[calc(100vh-64px)] w-72 border-r border-border p-3 flex flex-col gap-4">
+    <aside className="h-[calc(100vh-64px)] w-72 panel-glass border-r border-border p-3 flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <LayoutGrid className="size-5 opacity-70" />

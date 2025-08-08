@@ -130,10 +130,10 @@ const AppShell = () => {
 
   return (
     <div className="min-h-screen">
-      <header className="h-16 flex items-center justify-between px-4 border-b border-border">
+      <header className="h-16 flex items-center justify-between px-4 border-b border-border header-gradient">
         <div className="flex items-center gap-3">
           <Layers className="size-6" />
-          <h1 className="text-xl font-bold">Canvas — Lifelike Bulletin Board</h1>
+          <h1 className="text-xl font-bold font-playfair text-gradient-primary">Canvas — Lifelike Bulletin Board</h1>
         </div>
         <div className="flex items-center gap-2">
           <Palette className="size-4 opacity-70" />
