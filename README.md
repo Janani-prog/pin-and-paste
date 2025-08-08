@@ -8,8 +8,6 @@ Welcome to **Canvas**, a playful and interactive app that turns your digital to-
 
 **URL**: https://pinandpaste.lovable.app/
 
-**Note**: This is a front-end showcase only. It does not have a database, so your pinned items will disappear when you close or refresh the page.
-
 ---
 
 ## How to Work on This Project
