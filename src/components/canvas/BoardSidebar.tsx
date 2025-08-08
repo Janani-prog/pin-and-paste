@@ -1,11 +1,13 @@
 import React, { useMemo, useState } from "react";
 import { useBoards } from "@/contexts/BoardsContext";
 import { Button } from "@/components/ui/button";
-import { Plus, LayoutGrid, ImageIcon, Link as LinkIcon, FilePlus2, StickyNote } from "lucide-react";
+import { Plus, LayoutGrid, ImageIcon, Link as LinkIcon, FilePlus2, StickyNote, Pencil, Trash2, Check, X } from "lucide-react";
 
 export const BoardSidebar: React.FC<{ onAddNote: () => void; onAddImage: (f: File) => void; onAddFile: (f: File) => void; onAddLink: (url: string) => void; }> = ({ onAddNote, onAddImage, onAddFile, onAddLink }) => {
   const { state, dispatch } = useBoards();
   const [newBoardName, setNewBoardName] = useState("");
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editName, setEditName] = useState("");
   const activeId = state.activeBoardId;
 
   const inputId = useMemo(() => `image-input-${Math.random().toString(36).slice(2)}`,[ ]);
@@ -25,13 +27,60 @@ export const BoardSidebar: React.FC<{ onAddNote: () => void; onAddImage: (f: Fil
 
       <div className="space-y-1 overflow-auto">
         {state.boards.map((b) => (
-          <button
-            key={b.id}
-            onClick={() => dispatch({ type: "SET_ACTIVE", id: b.id })}
-            className={`w-full text-left px-3 py-2 rounded-md border ${activeId === b.id ? "bg-accent text-accent-foreground border-border" : "bg-background border-border"}`}
-          >
-            {b.name}
-          </button>
+          <div key={b.id} className={`group flex items-center gap-2 px-2 py-2 rounded-md border ${activeId === b.id ? "bg-accent text-accent-foreground border-border" : "bg-background border-border"}`}>
+            {editingId === b.id ? (
+              <form
+                className="flex items-center gap-2 w-full"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const name = editName.trim();
+                  if (name) {
+                    dispatch({ type: "RENAME_BOARD", id: b.id, name });
+                    setEditingId(null);
+                    setEditName("");
+                  }
+                }}
+              >
+                <input
+                  className="flex-1 px-2 py-1 rounded-md border border-border bg-background"
+                  value={editName}
+                  onChange={(e) => setEditName(e.target.value)}
+                  autoFocus
+                  onKeyDown={(e) => {
+                    if (e.key === "Escape") {
+                      setEditingId(null);
+                      setEditName("");
+                    }
+                  }}
+                />
+                <Button size="sm" variant="glass" aria-label="Save" type="submit"><Check /></Button>
+                <Button size="sm" variant="glass" aria-label="Cancel" type="button" onClick={() => { setEditingId(null); setEditName(""); }}><X /></Button>
+              </form>
+            ) : (
+              <>
+                <button
+                  onClick={() => dispatch({ type: "SET_ACTIVE", id: b.id })}
+                  className="flex-1 text-left"
+                >
+                  {b.name}
+                </button>
+                <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Button size="sm" variant="glass" aria-label="Rename" onClick={() => { setEditingId(b.id); setEditName(b.name); }}>
+                    <Pencil />
+                  </Button>
+                  <Button size="sm" variant="glass" aria-label="Delete" onClick={() => {
+                    if (state.boards.length <= 1) { window.alert("You can't delete the only board."); return; }
+                    const ok = window.confirm(`Delete board "${b.name}"?`);
+                    if (ok) {
+                      dispatch({ type: "DELETE_BOARD", id: b.id });
+                    }
+                  }}>
+                    <Trash2 />
+                  </Button>
+                </div>
+              </>
+            )}
+          </div>
         ))}
       </div>
 
