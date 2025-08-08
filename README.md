@@ -1,73 +1,66 @@
-# Welcome to your Lovable project
+# Canvas 🎨
 
-## Project info
+## A Cute Fun Experiment with Vibe Coding
 
-**URL**: https://lovable.dev/projects/2de84c04-2327-4b16-b280-766c3b6c76c0
+Welcome to **Canvas**, a playful and interactive app that turns your digital to-do list into a dynamic, aesthetic bulletin board. This project is one of my fun experiments, focusing on creating a delightful front-end experience with a lot of vibe and creativity. I wanted to see how a simple productivity tool could feel more personal and artistic.
 
-## How can I edit this code?
+## Live Demo
 
-There are several ways of editing your application.
+**URL**: https://pinandpaste.lovable.app/
 
-**Use Lovable**
+**Note**: This is a front-end showcase only. It does not have a database, so your pinned items will disappear when you close or refresh the page.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/2de84c04-2327-4b16-b280-766c3b6c76c0) and start prompting.
+---
 
-Changes made via Lovable will be committed automatically to this repo.
+## How to Work on This Project
 
-**Use your preferred IDE**
+### Use your preferred IDE
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+If you want to contribute or simply tinker with the code locally, you can clone this repository. The only requirements are having Node.js and npm installed.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1.  **Clone the repository:**
+    ```sh
+    git clone [https://github.com/your-username/canvas.git](https://github.com/your-username/canvas.git)
+    ```
+2.  **Navigate to the project directory:**
+    ```sh
+    cd canvas
+    ```
+3.  **Install dependencies:**
+    ```sh
+    npm i
+    ```
+4.  **Start the development server:**
+    ```sh
+    npm run dev
+    ```
+    This will launch the app with a hot-reloading preview in your browser.
 
-Follow these steps:
+### Edit a file directly in GitHub
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+You can make quick changes right from the GitHub website.
+1.  Navigate to the file you want to edit.
+2.  Click the pencil icon to edit the file.
+3.  Make your changes and commit them directly.
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### Use GitHub Codespaces
 
-# Step 3: Install the necessary dependencies.
-npm i
+For a quick, cloud-based development environment:
+1.  Go to the main page of this repository.
+2.  Click the "Code" button and select the "Codespaces" tab.
+3.  Click "New codespace" to launch a full-featured IDE in your browser.
+4.  Edit files, commit, and push your changes when you're done.
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+---
 
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
+## Technologies Used
 
 This project is built with:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+-   **Vite**
+-   **TypeScript**
+-   **React**
+-   **shadcn-ui**
+-   **Tailwind CSS**
 
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/2de84c04-2327-4b16-b280-766c3b6c76c0) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+---
