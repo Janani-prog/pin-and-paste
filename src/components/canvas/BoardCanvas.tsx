@@ -140,32 +140,6 @@ export const BoardCanvas: React.FC = () => {
       className={cn("relative w-full h-screen")}
       style={{ backgroundImage: `url(${bgUrl})`, backgroundSize: "512px 512px" }}
     >
-      <div className="absolute top-3 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3 py-2 rounded-full bg-background/80 backdrop-blur border border-border shadow-sm">
-        <TagIcon className="size-4 opacity-70" />
-        {state.tags.map((t) => {
-          const active = state.filterTagIds.includes(t.id);
-          return (
-            <button
-              key={t.id}
-              aria-pressed={active}
-              onClick={() => {
-                const tagIds = active
-                  ? state.filterTagIds.filter((id) => id !== t.id)
-                  : [...state.filterTagIds, t.id];
-                dispatch({ type: "SET_FILTERS", tagIds });
-              }}
-              className={cn(
-                "px-3 py-1 rounded-full text-xs border",
-                active ? "bg-accent text-accent-foreground border-border" : "bg-background text-foreground border-border"
-              )}
-              style={{ backgroundColor: active ? undefined : undefined }}
-            >
-              {t.label}
-            </button>
-          );
-        })}
-      </div>
-
       {/* Items layer */}
       <div className="absolute inset-0">
         {visibleItems.map((item) => (
