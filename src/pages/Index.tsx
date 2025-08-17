@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { BoardsProvider, useBoards } from "@/contexts/BoardsContext";
 import { BoardCanvas } from "@/components/canvas/BoardCanvas";
 import { BoardSidebar } from "@/components/canvas/BoardSidebar";
-import { Layers, Palette, Eye, EyeOff } from "lucide-react";
+import { Layers, Palette, Eye, EyeOff, Pencil, Trash2, Check, X } from "lucide-react";
 import { nanoid } from "nanoid";
 import { useCallback, useState } from "react";
 
@@ -30,6 +30,8 @@ const AppShell = () => {
   const board = state.boards.find((b) => b.id === state.activeBoardId);
   const play = usePushpinSound();
   const [showControls, setShowControls] = useState(true);
+  const [editingBoardId, setEditingBoardId] = useState<string | null>(null);
+  const [editBoardName, setEditBoardName] = useState("");
 
   if (!board) return null;
 
@@ -152,21 +154,88 @@ const AppShell = () => {
                 <Layers className="size-4 text-white/70" />
                 <span className="text-white/90 text-sm font-medium">Boards</span>
               </div>
-              <select
-                className="w-full bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:ring-2 focus:ring-white/30 z-50"
-                value={state.activeBoardId}
-                onChange={(e) => dispatch({ type: "SET_ACTIVE", id: e.target.value })}
-              >
+              
+              {/* Board list with rename/delete functionality */}
+              <div className="space-y-2 mb-3 max-h-40 overflow-y-auto">
                 {state.boards.map((b) => (
-                  <option key={b.id} value={b.id} className="bg-neutral-800 text-white">
-                    {b.name}
-                  </option>
+                  <div key={b.id} className={`group flex items-center gap-2 px-2 py-2 rounded-lg border ${state.activeBoardId === b.id ? "bg-white/20 text-white border-white/30" : "bg-black/20 text-white/80 border-white/10"}`}>
+                    {editingBoardId === b.id ? (
+                      <form
+                        className="flex items-center gap-1 w-full"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                          const name = editBoardName.trim();
+                          if (name) {
+                            dispatch({ type: "RENAME_BOARD", id: b.id, name });
+                            setEditingBoardId(null);
+                            setEditBoardName("");
+                          }
+                        }}
+                      >
+                        <input
+                          className="flex-1 px-2 py-1 rounded border bg-black/30 border-white/20 text-white text-xs focus:outline-none focus:ring-1 focus:ring-white/30"
+                          value={editBoardName}
+                          onChange={(e) => setEditBoardName(e.target.value)}
+                          autoFocus
+                          onKeyDown={(e) => {
+                            if (e.key === "Escape") {
+                              setEditingBoardId(null);
+                              setEditBoardName("");
+                            }
+                          }}
+                        />
+                        <Button size="sm" variant="secondary" className="bg-green-600/50 hover:bg-green-600/70 text-white border-green-500/30 h-6 w-6 p-0" type="submit">
+                          <Check className="size-3" />
+                        </Button>
+                        <Button size="sm" variant="secondary" className="bg-red-600/50 hover:bg-red-600/70 text-white border-red-500/30 h-6 w-6 p-0" type="button" onClick={() => { setEditingBoardId(null); setEditBoardName(""); }}>
+                          <X className="size-3" />
+                        </Button>
+                      </form>
+                    ) : (
+                      <>
+                        <button
+                          onClick={() => dispatch({ type: "SET_ACTIVE", id: b.id })}
+                          className="flex-1 text-left text-sm truncate"
+                        >
+                          {b.name}
+                        </button>
+                        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Button 
+                            size="sm" 
+                            variant="secondary" 
+                            className="bg-white/10 hover:bg-white/20 text-white border-white/20 h-6 w-6 p-0" 
+                            onClick={() => { setEditingBoardId(b.id); setEditBoardName(b.name); }}
+                          >
+                            <Pencil className="size-3" />
+                          </Button>
+                          <Button 
+                            size="sm" 
+                            variant="secondary" 
+                            className="bg-red-600/50 hover:bg-red-600/70 text-white border-red-500/30 h-6 w-6 p-0" 
+                            onClick={() => {
+                              if (state.boards.length <= 1) { 
+                                window.alert("You can't delete the only board."); 
+                                return; 
+                              }
+                              const ok = window.confirm(`Delete board "${b.name}"?`);
+                              if (ok) {
+                                dispatch({ type: "DELETE_BOARD", id: b.id });
+                              }
+                            }}
+                          >
+                            <Trash2 className="size-3" />
+                          </Button>
+                        </div>
+                      </>
+                    )}
+                  </div>
                 ))}
-              </select>
+              </div>
+
               <Button 
                 variant="secondary" 
                 size="sm" 
-                className="w-full mt-2 bg-white/10 hover:bg-white/20 text-white border-white/20"
+                className="w-full bg-white/10 hover:bg-white/20 text-white border-white/20"
                 onClick={() => dispatch({ type: "ADD_BOARD" })}
               >
                 <Layers className="size-3 mr-1" />
