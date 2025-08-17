@@ -137,7 +137,7 @@ export const BoardCanvas: React.FC = () => {
 
   return (
     <main
-      className={cn("relative w-full h-[calc(100vh-64px)] rounded-lg border border-border")}
+      className={cn("relative w-full h-screen")}
       style={{ backgroundImage: `url(${bgUrl})`, backgroundSize: "512px 512px" }}
     >
       <div className="absolute top-3 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3 py-2 rounded-full bg-background/80 backdrop-blur border border-border shadow-sm">

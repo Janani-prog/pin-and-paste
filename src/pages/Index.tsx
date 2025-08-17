@@ -129,32 +129,63 @@ const AppShell = () => {
   };
 
   return (
-    <div className="min-h-screen">
-      <header className="h-16 flex items-center justify-between px-4 border-b border-border header-gradient">
-        <div className="flex items-center gap-3">
-          <Layers className="size-6" />
-          <h1 className="text-xl font-bold font-playfair text-gradient-primary">Canvas — Lifelike Bulletin Board</h1>
-        </div>
-        <div className="flex items-center gap-2">
-          <Palette className="size-4 opacity-70" />
+    <div className="min-h-screen bg-neutral-900 relative overflow-hidden">
+      {/* Floating board selector in top-left corner */}
+      <div className="absolute top-6 left-6 z-20">
+        <div className="bg-black/20 backdrop-blur-md border border-white/10 rounded-xl p-3 shadow-2xl">
+          <div className="flex items-center gap-2 mb-3">
+            <Layers className="size-4 text-white/70" />
+            <span className="text-white/90 text-sm font-medium">Boards</span>
+          </div>
           <select
-            className="px-3 py-2 rounded-md border border-border bg-background"
+            className="w-full bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:ring-2 focus:ring-white/30"
+            value={state.activeBoardId}
+            onChange={(e) => dispatch({ type: "SET_ACTIVE", id: e.target.value })}
+          >
+            {state.boards.map((b) => (
+              <option key={b.id} value={b.id} className="bg-neutral-800 text-white">
+                {b.name}
+              </option>
+            ))}
+          </select>
+          <Button 
+            variant="secondary" 
+            size="sm" 
+            className="w-full mt-2 bg-white/10 hover:bg-white/20 text-white border-white/20"
+            onClick={() => dispatch({ type: "ADD_BOARD" })}
+          >
+            <Layers className="size-3 mr-1" />
+            New Board
+          </Button>
+        </div>
+      </div>
+
+      {/* Floating texture selector in top-right corner */}
+      <div className="absolute top-6 right-6 z-20">
+        <div className="bg-black/20 backdrop-blur-md border border-white/10 rounded-xl p-3 shadow-2xl">
+          <div className="flex items-center gap-2 mb-3">
+            <Palette className="size-4 text-white/70" />
+            <span className="text-white/90 text-sm font-medium">Texture</span>
+          </div>
+          <select
+            className="bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:ring-2 focus:ring-white/30"
             value={board.texture}
             onChange={(e) => dispatch({ type: "UPDATE_BOARD", id: board.id, patch: { texture: e.target.value as any } })}
-            aria-label="Board background"
           >
-            <option value="cork">Corkboard</option>
-            <option value="wood">Dark Wood</option>
-            <option value="linen">White Linen</option>
+            <option value="cork" className="bg-neutral-800 text-white">Corkboard</option>
+            <option value="wood" className="bg-neutral-800 text-white">Dark Wood</option>
+            <option value="linen" className="bg-neutral-800 text-white">White Linen</option>
           </select>
-          <Button variant="hero" onClick={() => dispatch({ type: "ADD_BOARD" })}>New Board</Button>
         </div>
-      </header>
-
-      <div className="grid grid-cols-[18rem_1fr]">
-        <BoardSidebar onAddNote={addNote} onAddImage={addImage} onAddFile={addFile} onAddLink={addLink} />
-        <BoardCanvas />
       </div>
+
+      {/* Floating tools sidebar in bottom-left */}
+      <div className="absolute bottom-6 left-6 z-20">
+        <BoardSidebar onAddNote={addNote} onAddImage={addImage} onAddFile={addFile} onAddLink={addLink} />
+      </div>
+
+      {/* Full-screen board canvas */}
+      <BoardCanvas />
     </div>
   );
 };
